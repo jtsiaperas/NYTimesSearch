@@ -1,19 +1,68 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Home from "./components/Home";
+import Saved from "./components/Saved";
+import API from "./utils/API.js";
 import "./App.css";
 
-class App extends Component {
+class App extends Component{ 
+  state = {
+    articles: [],
+    saved: []
+  }
+
+  componentDidMount(){
+    API.getSaved().then(results => {
+      let saved = results;
+      this.setState({saved: saved});
+    }).catch(err => console.log(err));
+  }
+  
+  const propsRoute = ({ component: Component, ...rest }) => (
+    <Route {...rest} render={props => (
+      <Component {...props}/>
+    )}/>
+  )
+
+  handleSearch = query => {
+    const queryURL = `https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=
+    ${process.env.authKey}&q=${query}`;
+    axios.get(queryURL).then(results =>{
+      const articles = [];
+      let article = {};
+      
+
+    })
+  }
+
+  handleSave = article => {
+    API.saveArticle(article)then(results=>{
+      console.log(results);
+    }).catch(err => console.log(err));
+  }
+
+  handleDelete = id => {
+    API.deleteArticle(id).then(results=>{
+      console.log(results);
+    }).catch(err => console.log(err));
+  }
+
+  getNotes = id => {
+    API.getNotes(id).then(results=>{
+      let articles = this.state.articles.slice();
+      articles[id].notes = results;
+      this.setState({articles: articles});
+    }).catch(err => console.log(err));
+  }
+
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+      <Router>
+        <div>
+          <propsRoute exact path="/" component={Home} />
+          <propsRoute exact path="/" component={Saved} />
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      </Router>
     );
   }
 }
