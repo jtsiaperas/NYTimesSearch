@@ -3,10 +3,10 @@ import Header from "../Header";
 import Search from "../Search";
 import "./Home.css";
 
-const Home = () => (
+const Home = props => (
 	<div className="home" >
   		<Header />
-   		<Search />
+   		<Search {...props} />
 	</div>
 );
 
