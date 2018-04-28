@@ -5,7 +5,9 @@ import Saved from "./components/Saved";
 import ArticleContainer from "./components/ArticleContainer";
 import API from "./utils/API.js";
 import axios from "axios";
+import dotenv from 'dotenv';
 import "./App.css";
+dotenv.config();
 
 class App extends Component{ 
   state = {
@@ -17,6 +19,7 @@ class App extends Component{
   }
 
   componentDidMount(){
+    
     API.getSaved().then(results => {
       let saved = results;
       this.setState({saved: saved});
@@ -31,6 +34,8 @@ class App extends Component{
   };
 
   handleSearch = () => {
+    console.log(process.env.authKey);
+    alert("searching!");
     let query = `${this.state.topic}&begin_date=${this.state.start}0101&end_date=${this.state.end}0101`;
     const queryURL = `https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=
     ${process.env.authKey}&q=${query}`;
@@ -73,13 +78,13 @@ class App extends Component{
 
   render() {
     return (
-      <Router>
+      
         <div className="container">
-          <Route exact path="/" render={(props:{handleInputChange: handleInputChange, handleSearch: handleSearch}) => <Home {...props} />}/>
-          <Route exact path="/" render={(props:{handleSave: handleSave, articles: articles}) => <ArticleContainer {...props} />}/>
-          <Route exact path="/" render={(props) => <Saved {...props} />} />
+          <Home  handleInputChange={this.handleInputChange} handleSearch= {this.handleSearch} topic= {this.state.topic} start= {this.state.start} end= {this.state.end} />
+          <ArticleContainer handleSave={this.handleSave} articles={this.state.articles} />
+          <Saved saved={this.state.saved} />
         </div>
-      </Router>
+      
     );
   }
 }

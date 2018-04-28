@@ -6,7 +6,7 @@ import "./Home.css";
 const Home = props => (
 	<div className="home" >
   		<Header />
-   		<Search {...props} />
+   		<Search handleInputChange={props.handleInputChange} handleSearch= {props.handleSearch} topic= {props.topic} start= {props.start} end= {props.end} />
 	</div>
 );
 

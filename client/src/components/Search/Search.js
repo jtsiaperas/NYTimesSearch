@@ -2,17 +2,18 @@ import React from "react";
 import "./Search.css";
 
 const Search = (props) => (
-	<div className="card search" >
-  		<div className="card-header">
+	<div className="card search mb-4" >
+  		<div className="card-header text-center">
+      <h2> Search </h2>
   		</div>
   		<div className="card-body">
   			<form>
-  				<span className = "text-center"><h3>Topic</h3></span>
-          <input name="topic" className="form-control" value={props.topic} onChange={props.onChange} />
-  				<span className = "text-center"><h3>Start Year</h3></span>
-          <input name="start" className="form-control" value={props.start} onChange={props.onChange} />
-  				<span className = "text-center"><h3>End Year</h3></span>
-          <input name="end" className="form-control" value={props.end} onChange={props.onChange} />
+  				<h3 className = "text-center mt-3">Topic</h3>
+          <input name="topic" className="form-control mb-3" value={props.topic} onChange={props.handleInputChange} />
+  				<h3 className = "text-center mt-3">Start Year</h3>
+          <input name="start" className="form-control mb-3" value={props.start} onChange={props.handleInputChange} />
+  				<h3 className = "text-center mt-3">End Year</h3>
+          <input name="end" className="form-control mb-3" value={props.end} onChange={props.handleInputChange} />
   			</form>
   		</div>
   		<div className="card-footer">
