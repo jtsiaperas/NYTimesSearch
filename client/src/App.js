@@ -34,8 +34,6 @@ class App extends Component{
   };
 
   handleSearch = () => {
-    console.log(process.env.authKey);
-    alert("searching!");
     let query = `${this.state.topic}&begin_date=${this.state.start}0101&end_date=${this.state.end}0101`;
     const queryURL = `https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=
     ${process.env.authKey}&q=${query}`;
