@@ -3,8 +3,11 @@ import "./Article.css";
 
 const Article = props => (
 
-	<div className="article" >
-  		<span className="float-left">{props.article.headline}</span> <button className="btn float-right" onClick={()=>props.handleSave(props.article)} > Save </button>
+	<div className="article mb-2" >
+  		<div className="row">
+  			<div className="col-md-8 float-left">{props.article.title}</div>
+  			<div className="col-md-4 float-right"> <button className="btn" onClick={()=>props.handleSave(props.article)} > Save </button></div>
+  		</div>
   	</div>
   
 );

@@ -5,6 +5,9 @@ const app = express();
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
+const request = require("request");
+require('dotenv').config();
+
 
 // Our scraping tools
 // Axios is a promised-based http library, similar to jQuery's Ajax method
@@ -25,6 +28,7 @@ mongoose.connect(MONGODB_URI);
 app.use(logger("dev"));
 
 // Use body-parser for handling form submissions
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
@@ -52,8 +56,7 @@ app.get("/api/articles", function(req, res) {
 
 // Route for grabbing a specific Article by id, populate it with it's note
 app.get("/api/articles/:id", function(req, res) {
-  // TODO
-  // ====
+
   db.Article.findOne({_id: req.params.id})
   .populate("notes")
   .then(function(dbArticle) {
@@ -64,10 +67,17 @@ app.get("/api/articles/:id", function(req, res) {
       // If an error occurred, send it to the client
        return res.json(err);
    });
-  // Finish the route so it finds one article using the req.params.id,
-  // and run the populate method with "note",
-  // then responds with the article with the note included
+ 
 });
+
+app.delete("/api/articles/:id", function(req,res){
+    db.Article.remove({_id:req.params.id},function(err){
+      if(err)
+      {
+        return res.json(err);
+      }
+    });
+})
 
 // Route for saving/updating an Article's associated Note
 app.post("/api/articles/:id", function(req, res) {
@@ -90,7 +100,8 @@ app.post("/api/articles/:id", function(req, res) {
 });
 
 app.post("/api/articles", function(req,res){
-    db.Article.upsert(req.body)
+    console.log(req.body.title);
+    db.Article.create({title: req.body.title, summary: req.body.summary, link: req.body.link})
     .then(function(dbArticle)
       {
         res.json(dbArticle);
@@ -101,9 +112,39 @@ app.post("/api/articles", function(req,res){
       });
 });
 
-app.get("*", function(req, res) {
-  res.sendFile(path.join(__dirname, "./client/build/index.html"));
+app.get("/api/scrape/:query", function(req, res){
+    let parameters = req.params.query.split(",");
+    parameters[1] +="0101";
+    parameters[2] += "0101"
+   axios.get("https://api.nytimes.com/svc/search/v2/articlesearch.json",
+      { params:{
+      'api-key':process.env.authKey.toString(),
+      'q': parameters[0].toString(),
+      'begin_date':parameters[1].toString(),
+      'end_date':parameters[2].toString()
+      }
+    }
+    ).then((results,body) =>{
+      console.log(results.data.response.docs[0]);
+      const articles = [];
+      for (let i=0; i < 5; i++)
+      {
+        let article = {};
+        article.title = results.data.response.docs[i].headline.main;
+        article.byline = results.data.response.docs[i].byline.original;
+        article.summary = results.data.response.docs[i].snippet;
+        article.date = results.data.response.docs[i].pub_date;
+        article.link = results.data.response.docs[i].web_url;
+        articles.push(article);
+      }
+      
+      res.json(articles);
+    });
 });
+
+// app.get("*", function(req, res) {
+//    res.sendFile(path.join(__dirname, "./client/build/index.html"));
+// });
 
 // app.get(function(req, res) {
 //   // First, we grab the body of the html with request

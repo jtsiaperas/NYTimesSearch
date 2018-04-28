@@ -4,10 +4,8 @@ import Home from "./components/Home";
 import Saved from "./components/Saved";
 import ArticleContainer from "./components/ArticleContainer";
 import API from "./utils/API.js";
-import axios from "axios";
-import dotenv from 'dotenv';
 import "./App.css";
-dotenv.config();
+
 
 class App extends Component{ 
   state = {
@@ -15,7 +13,8 @@ class App extends Component{
     saved: [],
     topic:"",
     start:"",
-    end:""
+    end:"",
+    note:""
   }
 
   componentDidMount(){
@@ -34,43 +33,47 @@ class App extends Component{
   };
 
   handleSearch = () => {
-    let query = `${this.state.topic}&begin_date=${this.state.start}0101&end_date=${this.state.end}0101`;
-    const queryURL = `https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=
-    ${process.env.authKey}&q=${query}`;
-    axios.get(queryURL).then(results =>{
-      const articles = [];
-     
-      for (let i=0; i < 5; i++)
-      {
-        let article = {};
-        article.headline = results.response.docs[i].headline.main;
-        article.byline = results.response.docs[i].byline.original;
-        article.section = results.response.docs[i].section_name;
-        article.date = results.response.docs[i].pub_date;
-        article.url = results.response.docs[i].web_url;
-        articles.push(article);
+   
+    let query = {topic: this.state.topic, start: this.state.start, end: this.state.end};
+    API.searchArticles(query).then(articles =>{
+        this.setState({articles: articles.data})
       }
-      this.setState({articles:articles});
-    }).catch(err => console.log(err));
+    ).catch(err => console.log(err));
   }
 
   handleSave = article => {
     API.saveArticle(article).then(results=>{
       console.log(results);
+      API.getSaved().then(results => {
+      let saved = results;
+      this.setState({saved: saved});
+    }).catch(err => console.log(err));
     }).catch(err => console.log(err));
   }
 
   handleDelete = id => {
     API.deleteArticle(id).then(results=>{
       console.log(results);
+      API.getSaved().then(results => {
+      let saved = results;
+      this.setState({saved: saved});
+    }).catch(err => console.log(err));
     }).catch(err => console.log(err));
   }
 
   getNotes = id => {
     API.getNotes(id).then(results=>{
-      let articles = this.state.articles.slice();
-      articles[id].notes = results;
-      this.setState({articles: articles});
+     
+    }).catch(err => console.log(err));
+  }
+
+  saveNote = id =>{
+      API.saveNote(id).then(results=>{
+      console.log(results);
+      API.getSaved().then(results => {
+      let saved = results;
+      this.setState({saved: saved});
+    }).catch(err => console.log(err));
     }).catch(err => console.log(err));
   }
 
@@ -80,7 +83,7 @@ class App extends Component{
         <div className="container">
           <Home  handleInputChange={this.handleInputChange} handleSearch= {this.handleSearch} topic= {this.state.topic} start= {this.state.start} end= {this.state.end} />
           <ArticleContainer handleSave={this.handleSave} articles={this.state.articles} />
-          <Saved saved={this.state.saved} />
+          <Saved handleInputChange={this.handleInputChange} saved={this.state.saved} getNotes={this.getNotes} note={this.state.note} handleDelete={this.handleDelete} saveNote={this.saveNote} />
         </div>
       
     );

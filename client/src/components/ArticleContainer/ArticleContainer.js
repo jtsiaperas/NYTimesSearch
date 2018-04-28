@@ -9,9 +9,9 @@ const ArticleContainer = props => (
         <h2>Results</h2>
   		</div>
   		<div className="card-body">
-  		  {props.articles ? (props.articles.map((article) => {
-          return <Article article={article} />
-        })):(<div></div>)}
+  		  {props.articles ? (props.articles.map((article,index) => {
+          return <Article handleSave = {props.handleSave} article={article} key={index} id={index}/>
+          })):(<div></div>)}
   		</div>
   
 	</div>

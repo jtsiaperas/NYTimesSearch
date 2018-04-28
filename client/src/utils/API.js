@@ -7,7 +7,7 @@ export default {
   },
   // Gets the book with the given id
   getNotes: function(id) {
-    return axios.get("/api/articles" + id);
+    return axios.get("/api/articles/" + id);
   },
   // Deletes the book with the given id
   deleteArticle: function(id) {
@@ -16,5 +16,12 @@ export default {
   // Saves a book to the database
   saveArticle: function(article) {
     return axios.post("/api/articles", article);
+  },
+  saveNote: function(id) {
+    return axios.post("/api/articles/"+id);
+  },
+  searchArticles: function(query) {
+    let params = query.topic+","+query.start+","+query.end;
+    return axios.get("/api/scrape/" + params);
   }
 };
