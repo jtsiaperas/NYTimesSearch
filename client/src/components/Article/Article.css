@@ -5,9 +5,10 @@
 	line-height: 2rem;
 	padding-left: 1rem;
 	display: inline-block;
+	width: 100%;
 }
 
-.article > .btn{
+.article .btn{
 	height: 2rem;
 	border-radius: 0;
 	background-color: gray;
