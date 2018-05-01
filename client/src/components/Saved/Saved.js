@@ -35,8 +35,10 @@ class Saved extends Component{
   }
 
   handleDelete = id => {
+    console.log(id);
     API.deleteArticle(id).then(results=>{
-      let saved = this.state.saved.slice().filter(item => item._id != results.data._id);
+      let saved = this.state.saved.slice().filter(item => item._id != id);
+      console.log(id);
       console.log(saved);
       this.setState({saved: saved});
     }).catch(err => console.log(err));
@@ -45,12 +47,14 @@ class Saved extends Component{
   saveNote = props =>{
     API.saveNote(props).then(results=>{
      console.log(results);
-     let saved = this.state.saved.slice().forEach(item => {
-      if(item._id == results.data._id)
-      {
-        item._id.notes.push({title: props.title, body: props.body});
-      }
+     let saved = this.state.saved.slice()
+     saved.forEach(item => {
+        if(item._id === results.data._id)
+        {
+            item.notes.push({title: props.title, body: props.body});
+        }
       });
+    
       this.setState({saved:saved});
     }).catch(err => console.log(err));
   }

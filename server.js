@@ -71,6 +71,7 @@ app.get("/api/articles/:id", function(req, res) {
 
 app.delete("/api/articles/:id", function(req,res){
     db.Article.remove({_id:req.params.id},function(err){
+       return res.send("success!");
       if(err)
       {
         return res.json(err);
