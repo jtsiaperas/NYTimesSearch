@@ -5,7 +5,6 @@ const app = express();
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
-const request = require("request");
 require('dotenv').config();
 
 
@@ -13,7 +12,7 @@ require('dotenv').config();
 // Axios is a promised-based http library, similar to jQuery's Ajax method
 // It works on the client and on the server
 const axios = require("axios");
-const cheerio = require("cheerio");
+
 
 // Require all models
 const db = require("./models");
@@ -116,7 +115,7 @@ app.get("/api/scrape/:query", function(req, res){
     let parameters = req.params.query.split(",");
     parameters[1] +="0101";
     parameters[2] += "0101"
-   axios.get("https://api.nytimes.com/svc/search/v2/articlesearch.json",
+    axios.get("https://api.nytimes.com/svc/search/v2/articlesearch.json",
       { params:{
       'api-key':process.env.authKey.toString(),
       'q': parameters[0].toString(),
