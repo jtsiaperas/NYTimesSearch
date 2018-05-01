@@ -9,12 +9,12 @@ import "./App.css";
 
 const App = () => (
       <Router>
+        
         <div className="container">
-         
-          <Route path="/" component={Header} />
-           <Route path="/" component={NavBar} />
-          <Route exact path="/" component={Home} />
-          <Route exact path="/saved" component={Saved} />
+        	<Route path="/" component={Header} />
+           	<Route path="/" component={NavBar} />
+          	<Route exact path="/" component={Home} />
+          	<Route exact path="/saved" component={Saved} />
         </div>
       </Router>
 );
