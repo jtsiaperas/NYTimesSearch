@@ -1,15 +1,63 @@
-.article {
-	height: 2rem;
+.saved{
+	border-radius: 0px;
+	background-color: goldenrod;
+}
+
+.savedArticle, .note, .noteForm {
+	border: 1px solid gray;
 	background-color: tan;
 	color: black;
 	line-height: 2rem;
 	padding-left: 1rem;
+	padding-right: 1rem;
+	padding-top: .5rem;
 }
 
-.article > .btn{
+.savedArticle > a {
+	color: black;
+	width: 100%;
+}
+
+.savedArticle > .btn{
 	height: 2rem;
 	border-radius: 0;
 	background-color: gray;
 	line-height: 1rem;
+}
+
+.noteForm > textarea {
+	border-radius: 0px;
+	border: none;
+	background-color: beige;
+}
+
+.noteForm > textarea:hover{
+	border-radius: 0px;
+	border: none;
+	background-color: purple;
+}
+
+.noteForm > textarea:focus {
+	border-radius: 0px;
+	border: 2px solid purple;
+	background-color: white;
+}
+
+.noteForm > input {
+	border-radius: 0px;
+	border: none;
+	background-color: beige;
+}
+
+.noteForm > input:hover{
+	border-radius: 0px;
+	border: none;
+	background-color: purple;
+}
+
+.noteForm > input:focus {
+	border-radius: 0px;
+	border: 2px solid purple;
+	background-color: white;
 }
 

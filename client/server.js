@@ -71,7 +71,8 @@ app.get("/articles/:id", function(req, res) {
 // Route for saving/updating an Article's associated Note
 app.post("/articles/:id", function(req, res) {
   // TODO
-     db.Note.create(req.body)
+
+     db.Note.create({title: req.title, body: req.body})
      .then(function(dbNote){
       return db.Article.findOneAndUpdate({_id: req.params.id}, {$push: {notes: dbNote._id}});
      })
@@ -100,37 +101,37 @@ app.post("/articles", function(req,res){
       });
 });
 
-// A GET route for scraping the NYT website
-app.get(function(req, res) {
-  // First, we grab the body of the html with request
-  axios.get("http://www.bbc.com/").then(function(response) {
-    // Then, we load that into cheerio and save it to $ for a shorthand selector
-    const $ = cheerio.load(response.data);
-    const articles = [];
-    // Now, we grab every h2 within an article tag, and do the following:
-    $(".media-list__item").each(function(i, element) {
-      // Save an empty result object
-      let result = {};
+// // A GET route for scraping the NYT website
+// app.get(function(req, res) {
+//   // First, we grab the body of the html with request
+//   axios.get("http://www.bbc.com/").then(function(response) {
+//     // Then, we load that into cheerio and save it to $ for a shorthand selector
+//     const $ = cheerio.load(response.data);
+//     const articles = [];
+//     // Now, we grab every h2 within an article tag, and do the following:
+//     $(".media-list__item").each(function(i, element) {
+//       // Save an empty result object
+//       let result = {};
       
-      // Add the text and href of every link, and save them as properties of the result object
-      result.title = $(this)
-        .find(".media__title")
-        .text();
-      result.link = $(this)
-        .find("a")
-        .attr("href");
-      result.summary = $(this)
-        .find(".media__summary")
-        .text();
+//       // Add the text and href of every link, and save them as properties of the result object
+//       result.title = $(this)
+//         .find(".media__title")
+//         .text();
+//       result.link = $(this)
+//         .find("a")
+//         .attr("href");
+//       result.summary = $(this)
+//         .find(".media__summary")
+//         .text();
       
-      articles.push(result);
+//       articles.push(result);
         
-    }).then(results => res.json(articles));
+//     }).then(results => res.json(articles));
 
-    // If we were able to successfully scrape and save an Article, send a message to the client
+//     // If we were able to successfully scrape and save an Article, send a message to the client
    
-  });
-});
+//   });
+// });
 
 // Start the server
 app.listen(PORT, function() {

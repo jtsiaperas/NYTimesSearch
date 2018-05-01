@@ -9,8 +9,6 @@ class Saved extends Component{
     super(props);
     this.state = {
      saved: [],
-     notes: [],
-     article_id:"",
      body:"",
      title:""
     };
@@ -30,29 +28,30 @@ class Saved extends Component{
 
   getSaved=()=>{
     API.getSaved().then(results => {
-      let saved = results;
+      let saved = results.data;
+      console.log(saved);
       this.setState({saved: saved});
     }).catch(err => console.log(err));
   }
 
   handleDelete = id => {
     API.deleteArticle(id).then(results=>{
-      console.log(results);
-      this.getSaved();
+      let saved = this.state.saved.slice().filter(item => item._id != results.data._id);
+      console.log(saved);
+      this.setState({saved: saved});
     }).catch(err => console.log(err));
   }
 
-  getNotes = id => {
-    API.getNotes(id).then(results=>{
-      console.log(results);
-      this.setState({notes: results.data.notes, article_id: id});
-    }).catch(err => console.log(err));
-  }
-
-  saveNote = id =>{
-      API.saveNote(id).then(results=>{
-      console.log(results);
-      this.getSaved();
+  saveNote = props =>{
+    API.saveNote(props).then(results=>{
+     console.log(results);
+     let saved = this.state.saved.slice().forEach(item => {
+      if(item._id == results.data._id)
+      {
+        item._id.notes.push({title: props.title, body: props.body});
+      }
+      });
+      this.setState({saved:saved});
     }).catch(err => console.log(err));
   }
 
@@ -68,8 +67,8 @@ class Saved extends Component{
   		
         	<div className="card-body">
         	
-  	   		{this.state.saved.data ? (this.state.saved.data.map((article,index) => {
-            	return <SavedArticle handleInputChange={this.handleInputChange} getNotes = {this.getNotes} saveNote = {this.saveNote} body={this.state.body} title = {this.state.title} notes = {this.state.article_id === article._id ? (this.state.notes):(false)} handleDelete={this.handleDelete} article={article} key={index} id={article._id}/>
+  	   		{this.state.saved ? (this.state.saved.map((article,index) => {
+            	return <SavedArticle handleInputChange={this.handleInputChange} saveNote = {this.saveNote} body={this.state.body} title = {this.state.title} notes = {this.state.article_id === article._id ? (this.state.notes):(false)} handleDelete={this.handleDelete} article={article} key={index} id={article._id}/>
             })):(<div></div>)}
             
   		 	</div>

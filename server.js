@@ -126,9 +126,10 @@ app.get("/api/scrape/:query", function(req, res){
     ).then((results,body) =>{
       console.log(results.data.response.docs[0]);
       const articles = [];
-      for (let i=0; i < 5; i++)
+      for (let i=0; i < 10; i++)
       {
         let article = {};
+        article.index = i;
         article.title = results.data.response.docs[i].headline.main;
         article.byline = results.data.response.docs[i].byline.original;
         article.summary = results.data.response.docs[i].snippet;

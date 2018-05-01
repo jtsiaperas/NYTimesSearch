@@ -17,8 +17,9 @@ export default {
   saveArticle: function(article) {
     return axios.post("/api/articles", article);
   },
-  saveNote: function(id) {
-    return axios.post("/api/articles/"+id);
+  saveNote: function(props) {
+    
+    return axios.post("/api/articles/"+props.id,{title: props.title, body: props.body});
   },
   searchArticles: function(query) {
     let params = query.topic+","+query.start+","+query.end;

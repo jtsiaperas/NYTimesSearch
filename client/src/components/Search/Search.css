@@ -1,4 +1,46 @@
 .search {
-	border-radius: 5px;
+	border-radius: 0px;
+	background-color: goldenrod;
 }
 
+
+.search input {
+	border-radius: 0px;
+	border: none;
+	background-color: beige;
+}
+
+.search form{
+	border: 1px solid gray;
+	background-color: tan;
+	color: black;
+	line-height: 2rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	padding-top: .5rem;
+}
+
+.search input:hover{
+	border-radius: 0px;
+	border: none;
+	background-color: purple;
+}
+
+.search input:focus {
+	border-radius: 0px;
+	border: 2px solid purple;
+	background-color: white;
+}
+
+.btn {
+	border-radius: 0px;
+	background-color: purple;
+	color: white;
+}
+
+.btn:hover {
+	border-radius: 0px;
+	border: none;
+	box-shadow: 5px 5px 1px 1px gray;
+	color: white;
+}

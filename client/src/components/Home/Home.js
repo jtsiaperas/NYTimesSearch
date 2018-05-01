@@ -33,7 +33,9 @@ class Home extends Component{
 
   	handleSave = article => {
     	API.saveArticle(article).then(results=>{
-      		console.log(results);
+      		let updated = this.state.articles.slice().filter(item => item.index != article.index);
+          console.log(updated);
+          this.setState({articles: updated});
       	}).catch(err => console.log(err));
   	}
 

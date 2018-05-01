@@ -8,11 +8,13 @@ const Search = (props) => (
   		</div>
   		<div className="card-body">
   			<form>
-  				<h3 className = "text-center mt-3">Topic</h3>
-          <input name="topic" className="form-control mb-3" value={props.topic} onChange={props.handleInputChange} />
-  				<h3 className = "text-center mt-3">Start Year</h3>
-          <input name="start" className="form-control mb-3" value={props.start} onChange={props.handleInputChange} />
-  				<h3 className = "text-center mt-3">End Year</h3>
+  				<h4 className = "text-center">Topic</h4>
+          <input name="topic" className="form-control" value={props.topic} onChange={props.handleInputChange} />
+          <hr />
+  				<h4 className = "text-center">Start Year</h4>
+          <input name="start" className="form-control" value={props.start} onChange={props.handleInputChange} />
+          <hr />
+  				<h4 className = "text-center">End Year</h4>
           <input name="end" className="form-control mb-3" value={props.end} onChange={props.handleInputChange} />
   			</form>
   		</div>
