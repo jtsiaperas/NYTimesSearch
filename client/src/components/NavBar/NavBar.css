@@ -1,0 +1,11 @@
+.navbar {
+	background-color: purple;
+	border-radius: 0px;
+	height: 3rem;
+	
+}
+
+.nav-link{
+	text-decoration: none;
+	color: white;
+}

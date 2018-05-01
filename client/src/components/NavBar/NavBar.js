@@ -1,11 +1,12 @@
 import React from "react";
+import "./NavBar.css";
 
 const NavBar = () => (
-  <nav className="navbar">
-        <a href="/" className={window.location.href == "/" ? ("navbar active"):("navbar")}>
+  <nav className="navbar navbar-light">
+        <a href="/" className={window.location.href == "/" ? ("nav-link active"):("nav-link")}>
           Home
         </a>
-        <a href="/saved" className={window.location.href == "/saved" ? ("navbar active"):("navbar")}>
+        <a href="/saved" className={window.location.href == "/saved" ? ("nav-link active"):("nav-link")}>
           Saved
         </a>
     
