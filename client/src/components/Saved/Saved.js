@@ -44,7 +44,8 @@ class Saved extends Component{
 
   getNotes = id => {
     API.getNotes(id).then(results=>{
-      this.setState({notes: results, article_id: id});
+      console.log(results);
+      this.setState({notes: results.data.notes, article_id: id});
     }).catch(err => console.log(err));
   }
 
@@ -58,7 +59,7 @@ class Saved extends Component{
    render(){
    	 return(
       		
-    		<div className="card articleContainer mt-3 mb-3" >
+    		<div className="card articleContainer mb-3" >
   		
 
         	<div className="card-header text-center">
